@@ -460,11 +460,11 @@ bool PresetManager::graph_from_json(const std::string &json,
       try {
         if (p_str.length() > 3 && p_str.substr(0, 3) == "out" && !is_input) {
           int idx = std::stoi(p_str.substr(3));
-          if (idx >= 0 && idx < node->output_pin_ids.size())
+          if (idx >= 0 && static_cast<size_t>(idx) < node->output_pin_ids.size())
             return node->output_pin_ids[idx];
         } else if (p_str.length() > 2 && p_str.substr(0, 2) == "in" && is_input) {
           int idx = std::stoi(p_str.substr(2));
-          if (idx >= 0 && idx < node->input_pin_ids.size())
+          if (idx >= 0 && static_cast<size_t>(idx) < node->input_pin_ids.size())
             return node->input_pin_ids[idx];
         }
       } catch (const std::invalid_argument&) {
