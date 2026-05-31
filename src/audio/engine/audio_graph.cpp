@@ -62,12 +62,17 @@ int AudioGraph::add_link(int source_pin_id, int dest_pin_id) {
         if (src_node) {
             // Count existing outgoing links from this specific pin
             int out_count = 0;
-            for (const auto &existing_link : links_) {
-                if (existing_link.source_pin_id == source_pin_id) {
-                    printf("add_link failed: Output pin %d already has an outgoing connection!\n", source_pin_id);
-                    out_count++;
-                }
-            }
+           bool printed = false;
+
+              for (const auto &existing_link : links_) {
+                  if (existing_link.source_pin_id == source_pin_id) {
+                      if (!printed) {
+                          printf("add_link failed: Output pin %d already has an outgoing connection!\n", source_pin_id);
+                          printed = true;
+                      }
+                      out_count++;
+                  }
+              }
             if (out_count >= 1) {
                 return -1; // Each output pin can only have 1 outgoing connection!
             }
